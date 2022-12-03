@@ -287,14 +287,14 @@ def show_validation_results(predictions, show_plots=True, print_error=True):
         # Show density plot of error for each category
         for category in categories:
             num_samples_tested = len(predictions.loc[predictions.category == category]['abs_error'])
-            sns.histplot(
+            sns.kdeplot(
                 predictions.loc[predictions.category == category]['abs_error'],
                 label=category + ' (' + str(num_samples_tested) + ' samples tested)',
                 # hist=False,
                 # kde_kws={"shade": True},
-                kde=True,
-                stat="density",
-                linewidth=0)
+                # kde=True
+                # stat="density")
+            )
             sns.despine()
         plt.xlabel("Absolute Error")
         plt.title("Distribution of Absolute Error By Category")
