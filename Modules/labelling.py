@@ -20,7 +20,7 @@ import netCDF4
 best_track_data = pd.read_csv('besttrack.csv')
 
 # The number of pixels wide and tall to crop the images of hurricanes to
-side_length = 64
+side_length = 50
 
 # Lists to hold the hurricane images and the wind speed associated with those images. These lists are aligned so that
 # the first image in the images list corresponds to the first label in the labels list.
@@ -36,15 +36,6 @@ for i in range(num_files):
     # Get IR satellite image from the file
     raw_data = netCDF4.Dataset('Satellite Imagery/' + files[i])
     ir_data = raw_data.variables['IRWIN'][0]
-
-    # 'Crop' the image by removing north, south, east, and west edges
-    # south_bound = (ir_data.shape[0] - side_length) // 2
-    # north_bound = south_bound + side_length
-    # cropped_ir_data = ir_data[south_bound:north_bound]
-    # west_bound = (ir_data.shape[1] - side_length) // 2
-    # east_bound = side_length
-    # cropped_ir_data = np.delete(cropped_ir_data, np.s_[:west_bound], axis=1)
-    # cropped_ir_data = np.delete(cropped_ir_data, np.s_[east_bound:], axis=1)
 
     # Performing center cropping of the image
     x, y = ir_data.shape
