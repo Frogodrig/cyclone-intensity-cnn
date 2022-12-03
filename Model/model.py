@@ -254,6 +254,7 @@ def generate_predictions(model, test_images, test_labels):
 
 def show_validation_results(predictions, show_plots=True, print_error=True):
 
+    print('--------------------------------------------------------------------------------------')
     print('\n\nRESULTS')
 
     if print_error:
@@ -261,6 +262,7 @@ def show_validation_results(predictions, show_plots=True, print_error=True):
         print('\nMean Absolute Error: ' + str(round(float(mae), 2)) + ' knots')
         rmse = predictions['abs_error_squared'].mean() ** 0.5
         print('Root Mean Square Error: ' + str(round(float(rmse), 2)) + ' knots')
+        print('--------------------------------------------------------------------------------------')
 
     if show_plots:
         # List of categories in order of ascending strength
@@ -285,11 +287,14 @@ def show_validation_results(predictions, show_plots=True, print_error=True):
         # Show density plot of error for each category
         for category in categories:
             num_samples_tested = len(predictions.loc[predictions.category == category]['abs_error'])
-            sns.distplot(
+            sns.histplot(
                 predictions.loc[predictions.category == category]['abs_error'],
                 label=category + ' (' + str(num_samples_tested) + ' samples tested)',
-                hist=False,
-                kde_kws={"shade": True})
+                # hist=False,
+                # kde_kws={"shade": True},
+                kde=True,
+                stat="density",
+                linewidth=0)
             sns.despine()
         plt.xlabel("Absolute Error")
         plt.title("Distribution of Absolute Error By Category")
