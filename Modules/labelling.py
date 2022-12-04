@@ -20,7 +20,7 @@ import netCDF4
 best_track_data = pd.read_csv('besttrack.csv')
 
 # The number of pixels wide and tall to crop the images of hurricanes to
-side_length = 50
+side_length = 64
 
 # Lists to hold the hurricane images and the wind speed associated with those images. These lists are aligned so that
 # the first image in the images list corresponds to the first label in the labels list.

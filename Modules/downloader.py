@@ -100,6 +100,6 @@ def print_progress(action, progress, total):
 if __name__ == "__main__":
     # Specify a list of years. Satellite images of cyclones from those years will be downloaded. More years will
     # provide more data for the neural network to work with in model.py, but will take longer to download.
-    YEARS_TO_DOWNLOAD = ['2012', '2013', '2014', '2015', '2016']
+    YEARS_TO_DOWNLOAD = ['2010','2011','2012', '2013', '2014', '2015', '2016','2017','2018','2019']
 
     download_HurSat(YEARS_TO_DOWNLOAD)

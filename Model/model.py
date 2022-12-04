@@ -67,7 +67,7 @@ def read_and_prepare_data(validation_mode, k=5, augment=True):
                 train_labels[i] = np.concatenate(([train_labels[i]] + folded_augmented_labels[:i] + folded_augmented_labels[(i + 1):]))
             test_images.append(folded_images[i])
             test_labels.append(folded_labels[i])
-            # train_images[i], test_images[i] = standardize_data(train_images[i], test_images[i])
+            train_images[i], test_images[i] = standardize_data(train_images[i], test_images[i])
 
         return train_images, train_labels, test_images, test_labels
 
@@ -154,7 +154,7 @@ def build_model():
 
     # Build network architecture
     model = models.Sequential()
-    model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(50, 50, 1)))
+    model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(64, 64, 1)))
     model.add(layers.MaxPooling2D((2, 2)))
     model.add(layers.Conv2D(64, (3, 3), activation='relu'))
     model.add(layers.MaxPooling2D((2, 2)))
@@ -167,7 +167,7 @@ def build_model():
 
     # Configure model optimization
     model.compile(
-        optimizer='rmsprop',
+        optimizer='adam',
         loss='mse',
         metrics=[metrics.MeanAbsoluteError(), metrics.RootMeanSquaredError()])
 
@@ -305,14 +305,14 @@ def show_validation_results(predictions, show_plots=True, print_error=True):
         print('Graph of error distribution by category saved as error_dist_by_category.png')
 
 
-# def standardize_data(train_images, test_images):
-#     train_images[train_images < 0] = 0
-#     test_images[test_images < 0] = 0
-#     st_dev = np.std(train_images)
-#     mean = np.mean(train_images)
-#     train_images = np.divide(np.subtract(train_images, mean), st_dev)
-#     test_images = np.divide(np.subtract(test_images, mean), st_dev)
-#     return train_images, test_images
+def standardize_data(train_images, test_images):
+    train_images[train_images < 0] = 0
+    test_images[test_images < 0] = 0
+    st_dev = np.std(train_images)
+    mean = np.mean(train_images)
+    train_images = np.divide(np.subtract(train_images, mean), st_dev)
+    test_images = np.divide(np.subtract(test_images, mean), st_dev)
+    return train_images, test_images
 
 
 def print_progress(action, progress, total):
